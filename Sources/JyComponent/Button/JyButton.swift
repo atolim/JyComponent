@@ -55,19 +55,21 @@ public struct JyButton: View {
       Text(title)
         .font(font)
         .foregroundColor(textColor)
+        .frame(maxWidth: .infinity)
     })
     .buttonStyle(JyButtonStyle(style: isEnabled ? style : .disabled, size: size, backgroundColor: backgroundColor))
+    .fixedSize(horizontal: true, vertical: false)
   }
 }
 #Preview {
   VStack {
 
-    JyButton("테스트", .yellow, style: .filled, size: .small, backgroundColor: .black) {
+    JyButton("테ㅁㅇㄴㅁㅇㄴㅁㅁㄴㅇㅁㄴㅁㄴㅇㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇㅇㅁ", .yellow, style: .filled, size: .small, backgroundColor: .black) {
 
     }
     .padding()
 
-    JyButton("테스트", .yellow, style: .filled, size: .medium, backgroundColor: .black) {
+    JyButton("로그인", .yellow, style: .filled, size: .medium, backgroundColor: .black) {
 
     }
     .padding()
