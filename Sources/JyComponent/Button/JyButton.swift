@@ -16,6 +16,7 @@ public struct JyButton: View {
   private let size: JyButtonSize
   private var isEnabled: Bool
   private let backgroundColor: Color
+  private let isFilledSized: Bool
 
   public init(_ title: String,
               _ textColor: Color = .white,
@@ -23,6 +24,7 @@ public struct JyButton: View {
               size: JyButtonSize = .medium,
               backgroundColor: Color = .primary,
               isEnabled: Bool = true,
+              isFilledSized: Bool = false,
               action: @escaping () -> Void) {
     self.title = title
     self.textColor = textColor
@@ -31,6 +33,7 @@ public struct JyButton: View {
     self.size = size
     self.backgroundColor = backgroundColor
     self.isEnabled = isEnabled
+    self.isFilledSized = isFilledSized
   }
 
   var font: Font {
@@ -47,24 +50,52 @@ public struct JyButton: View {
   }
 
   public var body: some View {
+    let contentView = Text(title)
+      .font(font)
+      .foregroundColor(textColor)
+
     Button(action: {
       if isEnabled {
         action()
       }
     }, label: {
-      Text(title)
-        .font(font)
-        .foregroundColor(textColor)
-        .frame(maxWidth: .infinity)
+      if isFilledSized {
+        HStack {
+          Spacer()
+          contentView
+          Spacer()
+        }
+      }
+      else {
+        contentView
+      }
     })
     .buttonStyle(JyButtonStyle(style: isEnabled ? style : .disabled, size: size, backgroundColor: backgroundColor))
-    .fixedSize(horizontal: true, vertical: false)
+    .if(isFilledSized, transform: { view in
+      view.frame(maxWidth: .infinity)
+    })
+    .if(!isFilledSized, transform: { view in
+      view.fixedSize(horizontal: true, vertical: false)
+    })
+    //.fixedSize(horizontal: true, vertical: false)
   }
 }
 #Preview {
   VStack {
+    Button {
 
-    JyButton("테ㅁㅇㄴㅁㅇㄴㅁㅁㄴㅇㅁㄴㅁㄴㅇㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇㅇㅁ", .yellow, style: .filled, size: .small, backgroundColor: .black) {
+    } label: {
+      HStack {
+        Spacer()
+        Text("Hello, World!")
+        Spacer()
+      }
+    }
+    .background(Color.red)
+    .fixedSize(horizontal: true, vertical: false)
+
+
+    JyButton("테ㅁㅇㄴㅁㅇㄴㅁㅁ", .yellow, style: .filled, size: .small, backgroundColor: .black) {
 
     }
     .padding()
@@ -87,3 +118,4 @@ public struct JyButton: View {
   }
 
 }
+
